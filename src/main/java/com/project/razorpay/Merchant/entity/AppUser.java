@@ -3,8 +3,14 @@ package com.project.razorpay.Merchant.entity;
 
 import com.project.razorpay.Common.enums.UserRole;
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name="app_user")
 public class AppUser {
 
@@ -23,7 +29,7 @@ public class AppUser {
     private String passwordHash;
     @Column(nullable=false)
     @Enumerated(EnumType.STRING)
-    private UserRole Role;
+    private UserRole role;
 
 
 }

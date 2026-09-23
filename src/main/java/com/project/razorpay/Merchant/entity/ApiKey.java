@@ -2,11 +2,16 @@ package com.project.razorpay.Merchant.entity;
 
 import com.project.razorpay.Common.enums.Environment;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-public class api_key   {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ApiKey {
 
     //when we create accounts for merchants we creates API_key which will be used to communicate
     //to the servers(abstraction for real merchant Name")

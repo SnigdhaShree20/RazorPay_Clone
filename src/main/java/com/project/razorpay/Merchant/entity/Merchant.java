@@ -24,7 +24,7 @@ public class Merchant {
     private String name;
     @Column(unique=true,nullable=false)
     private String email;
-    @Column(length=10,nullable=false)
+    @Column(length=10,nullable=true)
     private String contactNumber;
 
     @Column(length=50)

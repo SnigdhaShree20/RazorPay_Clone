@@ -4,7 +4,7 @@ public enum BusinessType {
     LLP,
     PROPRIETORSHIP,
     PARTNERSHIP,
-    PRIVATE_LIMITED,
+    PVT_LTD,
     PUBLIC_LIMITED,
     TRUST
 
