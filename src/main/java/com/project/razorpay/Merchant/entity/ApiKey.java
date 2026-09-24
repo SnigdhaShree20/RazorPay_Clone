@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,33 +14,32 @@ import java.util.UUID;
 @Builder
 public class ApiKey {
 
-    //when we create accounts for merchants we creates API_key which will be used to communicate
-    //to the servers(abstraction for real merchant Name")
-
     @Id
-    @GeneratedValue(strategy= GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name="merchant_id",nullable=false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "merchant_id", nullable = false)
     private Merchant merchant;
 
-    @Column(nullable=false,length=50,unique=true)
+    @Column(nullable = false, length = 150, unique = true)
     private String keyId;
 
-    @Column(nullable=false,length=150)
+    @Column(nullable = false, length = 150)
     private String keySecretHash;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false,length=50)
+    @Column(nullable = false, length = 50)
     private Environment environment;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     @Builder.Default
-    private boolean enabled=true;
+    private boolean enabled = true;
 
     private LocalDateTime lastUsedAt;
     private LocalDateTime rotatedAt;
     private LocalDateTime gracePeriodExpiresAt;
 
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 }

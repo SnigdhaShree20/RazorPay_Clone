@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+
 @Getter
 @Setter
 public class ResourceNotFoundException extends RuntimeException {
