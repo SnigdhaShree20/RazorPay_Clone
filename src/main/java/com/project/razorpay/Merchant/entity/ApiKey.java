@@ -18,7 +18,7 @@ public class ApiKey {
 
     @Id
     @GeneratedValue(strategy= GenerationType.UUID)
-    private UUID uuid;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name="merchant_id",nullable=false)
@@ -35,6 +35,7 @@ public class ApiKey {
     private Environment environment;
 
     @Column(nullable=false)
+    @Builder.Default
     private boolean enabled=true;
 
     private LocalDateTime lastUsedAt;
