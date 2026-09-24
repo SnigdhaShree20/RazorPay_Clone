@@ -23,8 +23,9 @@ public class ApiKeyController {
     public ResponseEntity<ApiKeyResponse> create(@PathVariable UUID merchantId,
                                                  @Valid @RequestBody CreateApiKeyRequest request)
     {
+
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(apiKeyService.create(merchnatId,request));
+                .body(apiKeyService.create(merchantId,request));
     }
 
 }
