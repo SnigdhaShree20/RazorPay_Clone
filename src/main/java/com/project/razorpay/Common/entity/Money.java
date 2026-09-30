@@ -2,10 +2,15 @@ package com.project.razorpay.Common.entity;
 
 
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable//ek class jiske khudka ka table nhi hota but uske fields kisi dusre entity k table me embedded hote h.
 @NoArgsConstructor
+@Getter
+@EqualsAndHashCode
 public class Money {
      private int amountUnits;
      private String currency;
