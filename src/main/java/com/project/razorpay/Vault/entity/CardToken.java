@@ -1,5 +1,6 @@
 package com.project.razorpay.Vault.entity;
 
+import com.project.razorpay.Common.entity.BaseEntity;
 import com.project.razorpay.Common.enums.RefundStatus;
 import jakarta.persistence.*;
 
@@ -8,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name="card_token")
-public class CardToken {
+public class CardToken extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.UUID)

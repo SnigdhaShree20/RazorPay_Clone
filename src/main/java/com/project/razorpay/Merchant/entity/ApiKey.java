@@ -1,5 +1,6 @@
 package com.project.razorpay.Merchant.entity;
 
+import com.project.razorpay.Common.entity.BaseEntity;
 import com.project.razorpay.Common.enums.Environment;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +18,7 @@ indexes = {@Index(name="idx_api_key_merchant_id",columnList = "merchant_id"),
         @Index(name="idx_api_key_merchant_env",columnList="merchant_id,environment,enabled")
 }
 )
-public class ApiKey {
+public class ApiKey extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

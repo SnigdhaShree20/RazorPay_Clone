@@ -1,6 +1,7 @@
 package com.project.razorpay.Merchant.entity;
 
 
+import com.project.razorpay.Common.entity.BaseEntity;
 import com.project.razorpay.Common.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,7 +16,7 @@ import lombok.*;
 indexes={
        @Index(name="idx_app_user_merchant_id",columnList="merchant_id")
 })
-public class AppUser {
+public class AppUser extends BaseEntity {
 
 
     @Id
