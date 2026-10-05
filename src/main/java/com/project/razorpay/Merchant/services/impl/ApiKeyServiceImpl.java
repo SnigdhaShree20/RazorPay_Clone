@@ -7,6 +7,7 @@ import com.project.razorpay.Merchant.dto.response.ApiKeyCreateResponse;
 import com.project.razorpay.Merchant.dto.response.ApiKeyResponse;
 import com.project.razorpay.Merchant.entity.ApiKey;
 import com.project.razorpay.Merchant.entity.Merchant;
+import com.project.razorpay.Merchant.mapper.ApiKeyMapper;
 import com.project.razorpay.Merchant.repository.ApiKeyRepository;
 import com.project.razorpay.Merchant.repository.MerchantRepository;
 import com.project.razorpay.Merchant.services.ApiKeyService;
@@ -29,6 +30,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     private final MerchantRepository merchantRepository;
     private final ApiKeyRepository apiKeyRepository;
+    private final ApiKeyMapper apiKeyMapper;
 
     @Override
     public ApiKeyCreateResponse create(UUID merchantId, CreateApiKeyRequest request)
@@ -54,17 +56,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     @Override
     public List<ApiKeyResponse> listByMerchant(UUID merchantId) {
 
-        return apiKeyRepository.findByMerchant_Id(merchantId)
-                .stream()
-                .map(apiKey -> new ApiKeyResponse(
-                        apiKey.getId(),
-                        apiKey.getKeyId(),
-                        apiKey.getEnvironment(),
-                        apiKey.isEnabled(),
-                        apiKey.getLastUsedAt(),
-                        null
-                ))
-                .toList();
+        return apiKeyMapper.toResponseList(apiKeyRepository.findByMerchant_Id(merchantId));
     }
 
     @Transactional
@@ -89,7 +81,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         //set the prev secretKey as current secret key
         apiKey.setPrevKeySecretHash(apiKey.getKeySecretHash());
         //update the curr secret Key
-        apiKey.setKeySecretHash(newRawSecret);//TODO:encode with BCRYPT password encoder.
+        apiKey.setKeySecretHash(newRawSecret);//TODO:encode with BCRYPT password e ncoder.
         apiKey.setRotatedAt(LocalDateTime.now());
         apiKey.setGracePeriodExpiresAt(LocalDateTime.now().plusHours(24));
         apiKey=apiKeyRepository.save(apiKey);

@@ -11,7 +11,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name="app_user")
+@Table(name="app_user",
+indexes={
+       @Index(name="idx_app_user_merchant_id",columnList="merchant_id")
+})
 public class AppUser {
 
 

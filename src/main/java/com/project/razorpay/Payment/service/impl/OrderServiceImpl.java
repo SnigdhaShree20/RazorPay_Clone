@@ -9,6 +9,7 @@ import com.project.razorpay.Payment.dto.response.OrderResponse;
 import com.project.razorpay.Payment.dto.response.PaymentResponse;
 import com.project.razorpay.Payment.entity.OrderRecord;
 import com.project.razorpay.Payment.entity.Payment;
+import com.project.razorpay.Payment.mapper.OrderMapper;
 import com.project.razorpay.Payment.mapper.PaymentMapper;
 import com.project.razorpay.Payment.repository.OrderRepository;
 import com.project.razorpay.Payment.repository.PaymentRepository;
@@ -33,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
+    private final OrderMapper orderMapper;
 
     @Value("${payment.order.default-order-expiry-minutes:30}")
     private int defaultOrderExpiryMinutes;
@@ -75,17 +77,7 @@ public class OrderServiceImpl implements OrderService {
         // TODO: publish Kafka event as order is created
 
         // 4. Return response
-        return new OrderResponse(
-                order.getId(),
-                order.getMerchantId(),
-                order.getReceipt(),
-                order.getAmount(),
-                order.getOrderStatus(),
-                order.getAttempts(),
-                order.getNotes(),
-                order.getCreatedAt(),
-                order.getExpiresAt()
-        );
+        return orderMapper.toResponse(order);
     }
 
     @Override
@@ -93,15 +85,7 @@ public class OrderServiceImpl implements OrderService {
 
         OrderRecord order = orderRepository.findByIdAndMerchantId(orderId, merchantId)
                 .orElseThrow(() -> new ResourceNotFoundException("order", orderId));
-        return new OrderResponse(order.getId(),
-                order.getMerchantId(),
-                order.getReceipt(),
-                order.getAmount(),
-                order.getOrderStatus(),
-                order.getAttempts(),
-                order.getNotes(),
-                order.getCreatedAt(),
-                order.getExpiresAt());
+        return orderMapper.toResponse(order);
 
     }
 
@@ -133,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("order", orderId));
         List<Payment> paymentList=paymentRepository.findByOrderId(orderId);
 
-        return  paymentMapper.toResponseList(paymentList);
+        return  paymentMapper.toResponseList( paymentList);
 
     }
 }
