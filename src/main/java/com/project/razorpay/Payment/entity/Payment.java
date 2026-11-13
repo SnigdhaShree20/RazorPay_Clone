@@ -5,8 +5,7 @@ import com.project.razorpay.Common.entity.Money;
 import com.project.razorpay.Common.enums.PaymentMethod;
 import com.project.razorpay.Common.enums.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -15,14 +14,16 @@ import java.util.Map;
 import java.util.UUID;
 
 @Entity
-@Table(name="payment",indexes={
-        @Index(name="idx_payment_order_id",columnList="order_id"),
-        @Index(name="idx_payment_merchant_id",columnList="merchant_id")
+@Table(name = "payment", indexes = {
+        @Index(name = "idx_payment_order_id", columnList = "order_id"),
+        @Index(name = "idx_payment_merchant_id", columnList = "merchant_id")
 })
 @Getter
 @Setter
-
-public class Payment extends BaseEntity  {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Payment extends BaseEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.UUID)
     private UUID id;
