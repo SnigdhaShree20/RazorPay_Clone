@@ -2,6 +2,7 @@ package com.project.razorpay.Payment.gateway;
 
 import com.project.razorpay.Common.enums.PaymentMethod;
 import com.project.razorpay.Payment.gateway.dto.PaymentRequest;
+import com.project.razorpay.Payment.gateway.dto.PaymentResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,7 @@ import java.util.Map;
 public class PaymentGatewayRouter {
     private final Map<PaymentMethod,PaymentAdapter> paymentAdapters;
 
-   public  void initiate(PaymentRequest request){
+   public PaymentResult initiate(PaymentRequest request){
         //handles the switch cases or if else here
 
        PaymentAdapter adapter= paymentAdapters.get(request.method());
@@ -20,7 +21,7 @@ public class PaymentGatewayRouter {
        if(adapter == null ){
            throw new IllegalArgumentException("No payment adapter registered for method:"+request.method());
        }
-       adapter.initiate(request);
+       return adapter.initiate(request);
 
     }
 }

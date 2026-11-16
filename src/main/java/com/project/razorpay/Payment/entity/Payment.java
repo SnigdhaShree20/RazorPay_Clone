@@ -50,8 +50,13 @@ public class Payment extends BaseEntity {
     private Map<String,Object> methodDetails;
     @Column(length=100)
     private String bankReference;
+    @Column(length = 100)
+    private String errorCode;
     @Column(length=255)
     private String failureReason;
+    @Column(length=255)
+    private String processorReference;
+
 
 
     private LocalDateTime authorizedAt;

@@ -10,6 +10,8 @@ import com.project.razorpay.Payment.entity.OrderRecord;
 import com.project.razorpay.Payment.entity.Payment;
 import com.project.razorpay.Payment.gateway.PaymentGatewayRouter;
 import com.project.razorpay.Payment.gateway.dto.PaymentRequest;
+import com.project.razorpay.Payment.gateway.dto.PaymentResult;
+import com.project.razorpay.Payment.mapper.PaymentMapper;
 import com.project.razorpay.Payment.repository.OrderRepository;
 import com.project.razorpay.Payment.repository.PaymentRepository;
 import com.project.razorpay.Payment.service.PaymentService;
@@ -29,6 +31,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
     private final PaymentGatewayRouter paymentGatewayRouter;
+    private final PaymentMapper paymentMapper;
 
     @Override
     @Transactional
@@ -61,10 +64,27 @@ public class PaymentServiceImpl implements PaymentService {
                 request.method(),
                 request.methodDetails());
 
-        paymentGatewayRouter.initiate(paymentRequest);
+       PaymentResult result= paymentGatewayRouter.initiate(paymentRequest);
+
+        switch (result) {
+            case PaymentResult.Pending pending ->
+                // We got registration reference
+                    payment.setProcessorReference(pending.registrationRef());
 
 
+            case PaymentResult.Failure failure -> {
+                payment.setStatus(PaymentStatus.FAILED);
+                payment.setErrorCode(failure.errorCode());
+                payment.setFailureReason(failure.errorDescription());
 
-        return null;
+            }
+        }
+
+        payment=paymentRepository.save(payment);
+        orderRepository.save(order);
+
+
+        return paymentMapper.toResponse(payment);
+
     }
 }
