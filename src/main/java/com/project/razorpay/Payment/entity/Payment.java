@@ -53,7 +53,7 @@ public class Payment extends BaseEntity {
     @Column(length = 100)
     private String errorCode;
     @Column(length=255)
-    private String failureReason;
+    private String errorDescription;
     @Column(length=255)
     private String processorReference;
 
